@@ -13,3 +13,11 @@ spec:
         kind: HelmRepository
         name: tf-controller
       interval: 1m
+  values:
+    resources:
+      limits:
+        cpu: 250m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 64Mi
