@@ -4,19 +4,19 @@ resources:
 - gotk-components.yaml
 - gotk-sync.yaml
 patches:
-  - patch: |
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: all
-      spec:
-        template:
-          spec:
-            containers:
-              - name: manager
-                resources:
-                  limits:
-                    cpu: 250m
-                    memory: 256Mi      
-    target:
-      kind: Deployment
+- patch: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: all
+    spec:
+      template:
+        spec:
+          containers:
+            - name: manager
+              resources:
+                limits:
+                  cpu: 250m
+                  memory: 256Mi
+  target:
+    kind: Deployment
