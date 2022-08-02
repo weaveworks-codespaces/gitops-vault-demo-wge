@@ -14,5 +14,5 @@ variable "vault_token" {
 variable "kubernetes_host" {
   type        = string
   description = "Server address for kubernetes host"
-  default     = "https://localhost:6443"
+  default     = "https://kubernetes.default.svc.cluster.local"
 }

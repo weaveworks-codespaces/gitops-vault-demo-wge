@@ -32,6 +32,5 @@ resource "vault_kubernetes_auth_backend_role" "flux_vault_demo" {
   bound_service_account_names      = ["flux-vault-demo"]
   bound_service_account_namespaces = ["default"]
   token_ttl                        = 3600
-  token_policies                   = ["read-secrets"]
-  audience                         = "vault"
+  token_policies                   = ["default", "read-secrets"]
 }
