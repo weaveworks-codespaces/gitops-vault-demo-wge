@@ -19,7 +19,3 @@ spec:
     server:
       dev:
         enabled: true
-      ingress:
-        enabled: true
-        hosts:
-          - host: vault.localhost
