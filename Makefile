@@ -1,7 +1,9 @@
+.PHONY: all
+all: kind flux
+
 .PHONY: kind
 kind:
 	kind create cluster --name=flux-vault-demo --config=./kind/config.yaml
-	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 
 .PHONY: flux
 flux:

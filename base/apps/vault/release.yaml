@@ -19,3 +19,6 @@ spec:
     server:
       dev:
         enabled: true
+      service:
+        type: NodePort
+        # nodePort: 38200
