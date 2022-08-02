@@ -21,4 +21,4 @@ spec:
         enabled: true
       service:
         type: NodePort
-        # nodePort: 38200
+        nodePort: 30000

@@ -5,7 +5,7 @@ networking:
 nodes:
 - role: control-plane
   extraPortMappings:
-  - containerPort: 8200
+  - containerPort: 30000
     hostPort: 8200
     protocol: TCP
   # - containerPort: 443
