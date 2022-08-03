@@ -14,8 +14,9 @@ resource "vault_kubernetes_auth_backend_config" "example" {
 }
 
 resource "vault_mount" "demo" {
-  path = "demo"
-  type = "kv-v2"
+  path        = "demo"
+  type        = "kv-v2"
+  description = "demo secret storage"
 }
 
 resource "vault_kv_secret_v2" "demo_creds" {
