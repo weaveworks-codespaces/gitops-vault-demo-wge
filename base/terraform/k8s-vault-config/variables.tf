@@ -1,7 +1,7 @@
 variable "vault_address" {
   type        = string
   description = "Vault server address"
-  default     = "http://localhost:8200"
+  default     = "http://vault.vault.svc.cluster.local:8200"
 }
 
 variable "vault_token" {

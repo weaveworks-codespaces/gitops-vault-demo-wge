@@ -27,6 +27,13 @@ spec:
             - name: flux-vault-demo-creds
               mountPath: /mnt/secrets-store
               readOnly: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
       volumes:
         - name: flux-vault-demo-creds
           csi:

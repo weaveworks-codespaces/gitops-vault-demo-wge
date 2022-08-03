@@ -13,16 +13,21 @@ resource "vault_kubernetes_auth_backend_config" "example" {
   disable_iss_validation = true
 }
 
-data "vault_policy_document" "read_secrets" {
+resource "vault_mount" "demo" {
+  path = "demo"
+  type = "kv-v2"
+}
+
+data "vault_policy_document" "read_demo_secrets" {
   rule {
-    path         = "secret/*"
+    path         = "demo/*"
     capabilities = ["read", "list"]
     description  = "read secrets"
   }
 }
 
-resource "vault_policy" "read_secrets" {
-  name   = "read-secrets"
+resource "vault_policy" "read_demo" {
+  name   = "read-demo"
   policy = data.vault_policy_document.read_secrets.hcl
 }
 
@@ -32,5 +37,5 @@ resource "vault_kubernetes_auth_backend_role" "flux_vault_demo" {
   bound_service_account_names      = ["flux-vault-demo"]
   bound_service_account_namespaces = ["default"]
   token_ttl                        = 3600
-  token_policies                   = ["default", "read-secrets"]
+  token_policies                   = ["read-demo"]
 }
