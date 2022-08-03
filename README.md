@@ -7,7 +7,7 @@ Before starting make sure to have the following applications installed:
 - [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 - [Docker](https://www.docker.com/products/docker-desktop)
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
-- [Vault](https://www.vaultproject.io/downloads) - Optional (we won't be using the cli for the demo, but you'll need it if you want to play around on your own)
+- [Vault](https://www.vaultproject.io/downloads) - Optional (the demo does not use the cli, but you'll need it if you want to play around on your own)
 
 Set the following environment variables:
 - `GITHUB_TOKEN` - personal access token used to authenticate with GitHub
