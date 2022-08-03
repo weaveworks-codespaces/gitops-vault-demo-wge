@@ -18,6 +18,21 @@ resource "vault_mount" "demo" {
   type = "kv-v2"
 }
 
+resource "vault_kv_secret_v2" "demo_creds" {
+  mount = vault_mount.demo.path
+  name  = "creds"
+  data_json = jsonencode(
+    {
+      username = "demo",
+      password = "myPassword",
+    }
+  )
+
+  lifecycle {
+    ignore_changes = [data_json]
+  }
+}
+
 data "vault_policy_document" "read_demo_secrets" {
   rule {
     path         = "demo/*"
