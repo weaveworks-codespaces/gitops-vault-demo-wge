@@ -28,7 +28,7 @@ data "vault_policy_document" "read_demo_secrets" {
 
 resource "vault_policy" "read_demo" {
   name   = "read-demo"
-  policy = data.vault_policy_document.read_secrets.hcl
+  policy = data.vault_policy_document.read_demo_secrets.hcl
 }
 
 resource "vault_kubernetes_auth_backend_role" "flux_vault_demo" {
