@@ -19,10 +19,7 @@ spec:
       serviceAccountName: flux-vault-demo
       containers:
         - name: flux-vault-demo
-          image: k8s.gcr.io/e2e-test-images/busybox:1.29
-          command:
-            - "/bin/sleep"
-            - "10000"
+          image: ghcr.io/rparmer/flux-vault-demo:latest
           volumeMounts:
             - name: flux-vault-demo-creds
               mountPath: /mnt/secrets-store

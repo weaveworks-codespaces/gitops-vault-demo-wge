@@ -1,3 +1,2 @@
-ignore.auto.tfvars
 .terraform*
 *.tfstate*

@@ -8,3 +8,9 @@ nodes:
   - containerPort: 30000
     hostPort: 8200
     protocol: TCP
+  - containerPort: 31000
+    hostPort: 9000
+    protocol: TCP
+  - containerPort: 31001
+    hostPort: 9001
+    protocol: TCP
