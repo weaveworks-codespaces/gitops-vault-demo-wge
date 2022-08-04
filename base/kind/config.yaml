@@ -5,12 +5,12 @@ networking:
 nodes:
 - role: control-plane
   extraPortMappings:
-  - containerPort: 30000
+  - containerPort: 30000 # vault ui
     hostPort: 8200
     protocol: TCP
-  - containerPort: 31000
+  - containerPort: 31000 # injector demo
     hostPort: 9000
     protocol: TCP
-  - containerPort: 31001
+  - containerPort: 31001 # csi demo
     hostPort: 9001
     protocol: TCP
