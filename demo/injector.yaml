@@ -2,27 +2,30 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: flux-vault-demo
+  name: flux-vault-demo-injector
+  namespace: default
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flux-vault-demo
+  name: flux-vault-demo-injector
   namespace: default
   labels:
-    app: flux-vault-demo
+    app: flux-vault-demo-injector
 spec:
   selector:
     matchLabels:
-      app: flux-vault-demo
+      app: flux-vault-demo-injector
   replicas: 1
   template:
     metadata:
       labels:
-        app: flux-vault-demo
+        app: flux-vault-demo-injector
       annotations:
         vault.hashicorp.com/agent-inject: 'true' # Really important!!!
         vault.hashicorp.com/role: flux-vault-demo
+        vault.hashicorp.com/template-static-secret-render-interval: 10s # Default 5m - only applies to static secrets (ie kv or kv-v2)
+        # vault.hashicorp.com/agent-inject-default-template: json
         vault.hashicorp.com/agent-inject-secret-creds: demo/creds
         vault.hashicorp.com/agent-inject-template-creds: |
           {{- with secret "demo/creds" -}}
@@ -30,7 +33,7 @@ spec:
           password="{{ .Data.data.password }}"
           {{- end }}
     spec:
-      serviceAccountName: flux-vault-demo
+      serviceAccountName: flux-vault-demo-injector
       containers:
         - name: flux-vault-demo
           image: ghcr.io/rparmer/flux-vault-demo:latest
@@ -50,11 +53,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: flux-vault-demo
+  name: flux-vault-demo-injector
+  namespace: default
 spec:
   type: NodePort
   selector:
-    app: flux-vault-demo
+    app: flux-vault-demo-injector
   ports:
     - protocol: TCP
       port: 8080

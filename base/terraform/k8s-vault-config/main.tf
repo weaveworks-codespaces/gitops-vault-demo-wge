@@ -50,7 +50,7 @@ resource "vault_policy" "read_demo" {
 resource "vault_kubernetes_auth_backend_role" "flux_vault_demo" {
   backend                          = vault_auth_backend.kubernetes.path
   role_name                        = "flux-vault-demo"
-  bound_service_account_names      = ["flux-vault-demo"]
+  bound_service_account_names      = ["flux-vault-demo-injector", "flux-vault-demo-csi"]
   bound_service_account_namespaces = ["default"]
   token_ttl                        = 3600
   token_policies                   = ["read-demo"]

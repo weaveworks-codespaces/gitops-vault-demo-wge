@@ -1,18 +1,19 @@
-# ---
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: flux-vault-demo
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flux-vault-demo-csi
+  namespace: default
 ---
 apiVersion: secrets-store.csi.x-k8s.io/v1
 kind: SecretProviderClass
 metadata:
-  name: flux-vault-demo
+  name: flux-vault-demo-csi
   namespace: default
 spec:
   provider: vault
   secretObjects: # Create k8s secret from parameters below
-    - secretName: flux-vault-demo-secrets
+    - secretName: flux-vault-demo-csi-secrets
       type: Opaque
       data:
         - objectName: username # References 'objectName' below
@@ -33,32 +34,37 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flux-vault-demo-secrets
+  name: flux-vault-demo-csi
   namespace: default
   labels:
-    app: flux-vault-demo-secrets
+    app: flux-vault-demo-csi
 spec:
   selector:
     matchLabels:
-      app: flux-vault-demo-secrets
+      app: flux-vault-demo-csi
   replicas: 1
   template:
     metadata:
       labels:
-        app: flux-vault-demo-secrets
+        app: flux-vault-demo-csi
     spec:
-      serviceAccountName: flux-vault-demo
+      serviceAccountName: flux-vault-demo-csi
       containers:
-        - name: flux-vault-demo-secrets
+        - name: flux-vault-demo-csi
           image: ghcr.io/rparmer/flux-vault-demo:latest
           env:
+            - name: DEMO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: flux-vault-demo-secrets
+                  key: username
             - name: DEMO_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: flux-vault-demo-secrets
                   key: password
           volumeMounts:
-            - name: flux-vault-demo-secrets
+            - name: flux-vault-demo-csi-secrets
               mountPath: /mnt/secrets-store
               readOnly: true
           resources:
@@ -69,9 +75,23 @@ spec:
               cpu: 100m
               memory: 64Mi
       volumes:
-        - name: flux-vault-demo-secrets
+        - name: flux-vault-demo-csi-secrets
           csi:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: flux-vault-demo-secrets
+              secretProviderClass: flux-vault-demo-csi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flux-vault-demo-csi
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    app: flux-vault-demo-csi
+  ports:
+    - protocol: TCP
+      port: 8080
+      nodePort: 31001
