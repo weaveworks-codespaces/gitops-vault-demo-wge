@@ -56,12 +56,12 @@ spec:
             - name: DEMO_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: flux-vault-demo-secrets
+                  name: flux-vault-demo-csi-secrets # must match secret name in SecretProviderClass definition
                   key: username
             - name: DEMO_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: flux-vault-demo-secrets
+                  name: flux-vault-demo-csi-secrets
                   key: password
           volumeMounts:
             - name: flux-vault-demo-csi-secrets
