@@ -52,6 +52,7 @@ spec:
       containers:
         - name: flux-vault-demo-csi
           image: ghcr.io/rparmer/flux-vault-demo:latest
+          imagePullPolicy: Always
           env:
             - name: DEMO_USERNAME
               valueFrom:
@@ -63,6 +64,10 @@ spec:
                 secretKeyRef:
                   name: flux-vault-demo-csi-secrets
                   key: password
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
           volumeMounts:
             - name: flux-vault-demo-csi-secrets
               mountPath: /mnt/secrets-store

@@ -37,9 +37,14 @@ spec:
       containers:
         - name: flux-vault-demo
           image: ghcr.io/rparmer/flux-vault-demo:latest
+          imagePullPolicy: Always
           env:
             - name: CREDS_FILE
               value: /vault/secrets/creds # default injected path is '/vault/secrets/<name>'
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
           ports:
             - containerPort: 8080
           resources:
