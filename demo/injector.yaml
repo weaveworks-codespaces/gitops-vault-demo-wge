@@ -26,11 +26,17 @@ spec:
         vault.hashicorp.com/role: flux-vault-demo
         vault.hashicorp.com/template-static-secret-render-interval: 10s # Default 5m - only applies to static secrets (ie kv or kv-v2)
         # vault.hashicorp.com/agent-inject-default-template: json
-        vault.hashicorp.com/agent-inject-secret-creds: demo/creds
-        vault.hashicorp.com/agent-inject-template-creds: |
+        vault.hashicorp.com/agent-inject-secret-file-creds: demo/creds
+        vault.hashicorp.com/agent-inject-template-file-creds: |
           {{- with secret "demo/creds" -}}
           username={{ .Data.data.username }}
           password={{ .Data.data.password }}
+          {{- end }}
+        vault.hashicorp.com/agent-inject-secret-env-creds: demo/creds
+        vault.hashicorp.com/agent-inject-template-env-creds: |
+          {{- with secret "demo/creds" -}}
+          export DEMO_USERNAME={{ .Data.data.username }}
+          export DEMO_PASSWORD={{ .Data.data.password }}
           {{- end }}
     spec:
       serviceAccountName: flux-vault-demo-injector
@@ -38,9 +44,11 @@ spec:
         - name: flux-vault-demo
           image: ghcr.io/rparmer/flux-vault-demo:latest
           imagePullPolicy: Always
+          command: ['/bin/sh']
+          args: ['-c', 'source /vault/secrets/env-creds && /demo/app'] # inject as env vars
           env:
             - name: CREDS_FILE
-              value: /vault/secrets/creds # default injected path is '/vault/secrets/<name>'
+              value: /vault/secrets/file-creds # inject as file
             - name: POD_NAME
               valueFrom:
                 fieldRef:
