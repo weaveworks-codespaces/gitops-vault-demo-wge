@@ -11,22 +11,22 @@ import (
 )
 
 func readCredsFile() Creds {
-	credsFile := getEnv("CREDS_FILE", "./dummy_creds")
+	credsFile := getEnv("CREDS_FILE", "")
 	p, err := properties.LoadFile(credsFile, properties.UTF8)
 	if err != nil {
-		creds := Creds{"fileNotFound", "oops"}
+		creds := Creds{"fileNotFound", "¯\\_(ツ)_/¯"}
 		return creds
 	}
 
 	username := p.GetString("username", "unknown")
-	password := p.GetString("password", "myNotSoSecretPassword")
+	password := p.GetString("password", "¯\\_(ツ)_/¯")
 	creds := Creds{username, password}
 	return creds
 }
 
 func readEnvVars() Creds {
 	username := getEnv("DEMO_USERNAME", "unknown")
-	password := getEnv("DEMO_PASSWORD", "myNotSoSecretPassword")
+	password := getEnv("DEMO_PASSWORD", "¯\\_(ツ)_/¯")
 	creds := Creds{username, password}
 	return creds
 }
