@@ -3,16 +3,24 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/magiconair/properties"
 )
 
+// read multiple files into single credential
+// > csi file based approach
 func readCredsDirectory(dir string) Creds {
-	files, err := ioutil.ReadDir(dir)
+	d, err := os.Open(dir)
+	if err != nil {
+		creds := Creds{"unableToReadDir", "¯\\_(ツ)_/¯"}
+		return creds
+	}
+
+	files, err := d.ReadDir(0)
 	if err != nil {
 		creds := Creds{"unableToReadDir", "¯\\_(ツ)_/¯"}
 		return creds
@@ -20,8 +28,14 @@ func readCredsDirectory(dir string) Creds {
 
 	creds := Creds{}
 	for _, f := range files {
-		content, err := ioutil.ReadFile(f.Name())
+
+		// ignore nested directories or hidden files
+		if f.IsDir() || strings.HasPrefix(f.Name(), ".") {
+			continue
+		}
+		content, err := os.ReadFile(fmt.Sprintf("%s/%s", dir, f.Name()))
 		if err != nil {
+			fmt.Println(err)
 			creds := Creds{"unableToReadFile", "¯\\_(ツ)_/¯"}
 			return creds
 		}
@@ -34,6 +48,7 @@ func readCredsDirectory(dir string) Creds {
 	return creds
 }
 
+// read file into credential
 func readCredsFile() Creds {
 	credsFile := getEnv("CREDS_FILE", "")
 	fileInfo, err := os.Stat(credsFile)
@@ -42,6 +57,7 @@ func readCredsFile() Creds {
 		return creds
 	}
 
+	// check if file path is a directory (csi)
 	if fileInfo.IsDir() {
 		return readCredsDirectory(credsFile)
 	}
@@ -58,6 +74,7 @@ func readCredsFile() Creds {
 	return creds
 }
 
+// read env vars into credential
 func readEnvVars() Creds {
 	username := getEnv("DEMO_USERNAME", "unknown")
 	password := getEnv("DEMO_PASSWORD", "¯\\_(ツ)_/¯")
