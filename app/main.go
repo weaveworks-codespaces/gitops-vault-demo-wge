@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -10,8 +11,41 @@ import (
 	"github.com/magiconair/properties"
 )
 
+func readCredsDirectory(dir string) Creds {
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		creds := Creds{"unableToReadDir", "¯\\_(ツ)_/¯"}
+		return creds
+	}
+
+	creds := Creds{}
+	for _, f := range files {
+		content, err := ioutil.ReadFile(f.Name())
+		if err != nil {
+			creds := Creds{"unableToReadFile", "¯\\_(ツ)_/¯"}
+			return creds
+		}
+		if f.Name() == "username" {
+			creds.Username = string(content)
+		} else if f.Name() == "password" {
+			creds.Password = string(content)
+		}
+	}
+	return creds
+}
+
 func readCredsFile() Creds {
 	credsFile := getEnv("CREDS_FILE", "")
+	fileInfo, err := os.Stat(credsFile)
+	if err != nil {
+		creds := Creds{"fileNotFound", "¯\\_(ツ)_/¯"}
+		return creds
+	}
+
+	if fileInfo.IsDir() {
+		return readCredsDirectory(credsFile)
+	}
+
 	p, err := properties.LoadFile(credsFile, properties.UTF8)
 	if err != nil {
 		creds := Creds{"fileNotFound", "¯\\_(ツ)_/¯"}

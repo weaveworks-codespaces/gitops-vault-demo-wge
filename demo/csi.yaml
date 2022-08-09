@@ -54,6 +54,8 @@ spec:
           image: ghcr.io/rparmer/flux-vault-demo:latest
           imagePullPolicy: Always
           env:
+            - name: CREDS_FILE
+              value: /mnt/secrets-store
             - name: DEMO_USERNAME
               valueFrom:
                 secretKeyRef:
