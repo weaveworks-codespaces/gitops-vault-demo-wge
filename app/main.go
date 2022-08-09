@@ -11,6 +11,14 @@ import (
 	"github.com/magiconair/properties"
 )
 
+// start demo server
+func main() {
+	http.HandleFunc("/", serveTemplate)
+
+	fmt.Println("starting server on port 8080")
+	http.ListenAndServe(":8080", nil)
+}
+
 // read multiple files into single credential
 // > csi file based approach
 func readCredsDirectory(dir string) Creds {
@@ -26,7 +34,7 @@ func readCredsDirectory(dir string) Creds {
 		return creds
 	}
 
-	creds := Creds{}
+	creds := Creds{"unknown", "¯\\_(ツ)_/¯"}
 	for _, f := range files {
 
 		// ignore nested directories or hidden files
@@ -80,13 +88,6 @@ func readEnvVars() Creds {
 	password := getEnv("DEMO_PASSWORD", "¯\\_(ツ)_/¯")
 	creds := Creds{username, password}
 	return creds
-}
-
-func main() {
-	http.HandleFunc("/", serveTemplate)
-
-	fmt.Println("starting server on port 8080")
-	http.ListenAndServe(":8080", nil)
 }
 
 func getEnv(key, defaultValue string) string {
