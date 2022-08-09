@@ -55,8 +55,8 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CREDS_FILE
-              value: /mnt/secrets-store
-            - name: DEMO_USERNAME
+              value: /mnt/secrets-store # inject as file
+            - name: DEMO_USERNAME # inject as env from secret (secret will be created when volume is mounted)
               valueFrom:
                 secretKeyRef:
                   name: flux-vault-demo-csi-secrets # must match secret name in SecretProviderClass definition
