@@ -44,8 +44,7 @@ spec:
           image: ghcr.io/rparmer/flux-vault-demo:latest
           imagePullPolicy: Always
           command: ['/bin/sh']
-          # args: ['-c', 'source /vault/secrets/env-creds && /demo/app'] # inject as env vars
-          args: ['-c', '/demo/app'] # inject as env vars
+          args: ['-c', 'source /vault/secrets/env-creds && /demo/app'] # inject as env vars
           env:
             - name: CREDS_FILE
               value: /vault/secrets/file-creds # inject as file
