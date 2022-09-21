@@ -43,5 +43,5 @@ patches:
         verbs: [ '*' ]
   target:
     kind: ClusterRole
-    name:  crd-controller-flux-system
+    name: crd-controller-flux-system
     
