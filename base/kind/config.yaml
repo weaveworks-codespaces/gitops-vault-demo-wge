@@ -8,9 +8,12 @@ nodes:
   - containerPort: 30000 # vault ui
     hostPort: 8200
     protocol: TCP
+  - containerPort: 30001 # ww-gitops ui
+    hostPort: 9001
+    protocol: TCP
   - containerPort: 31000 # injector demo
-    hostPort: 9000
+    hostPort: 8000
     protocol: TCP
   - containerPort: 31001 # csi demo
-    hostPort: 9001
+    hostPort: 8001
     protocol: TCP

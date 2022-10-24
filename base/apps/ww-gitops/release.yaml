@@ -1,0 +1,21 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ww-gitops
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: weave-gitops
+      sourceRef:
+        kind: HelmRepository
+        name: ww-gitops
+  interval: 1h0m0s
+  values:
+    adminUser:
+      create: true
+      username: admin
+      passwordHash: $2a$10$r0HSb/Srt7IEP6XGPmZrH.WOmfB7H44Eb0JOQSHC2qozUDEZyDWuW # "password"
+    service:
+      type: NodePort
+      nodePort: 30001
