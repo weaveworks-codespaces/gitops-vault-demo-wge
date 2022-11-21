@@ -14,7 +14,7 @@ check-env:
 flux: check-env
 	flux bootstrap github \
 		--owner="$(GITHUB_USER)" \
-		--repository=flux-vault-demo \
+		--repository=gitops-vault-demo \
 		--branch=main \
 		--path=./clusters/kind \
 		--personal
