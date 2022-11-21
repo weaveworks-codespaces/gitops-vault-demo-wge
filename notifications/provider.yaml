@@ -1,0 +1,25 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Provider
+metadata:
+  name: slack
+  namespace: flux-system
+spec:
+  type: slack
+  channel: demo
+  secretRef:
+    name: slack-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Alert
+metadata:
+  name: terraform-slack
+  namespace: flux-system
+spec:
+  providerRef:
+    name: slack
+  eventSeverity: info
+  eventSources:
+    - apiVersion: infra.contrib.fluxcd.io/v1alpha1
+      kind: Terraform
+      name: '*'
