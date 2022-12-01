@@ -25,9 +25,6 @@ spec:
     kind: GitRepository
     name: flux-system
   runnerPodTemplate:
-    metadata:
-      labels:
-        aadpodidbinding: myIdentity
     spec:
       envFrom:
       - secretRef:
