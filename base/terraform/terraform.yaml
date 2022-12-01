@@ -17,6 +17,8 @@ kind: Terraform
 metadata:
   name: azure-config
   namespace: flux-system
+  annotations:
+    metadata.weave.works/description: This is a sample set of objects for Azure such as role bindings and cloud functions.
 spec:
   interval: 10m
   approvePlan: auto
