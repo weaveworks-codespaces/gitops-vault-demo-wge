@@ -13,6 +13,7 @@ provider "azurerm" {
   tenant_id         = "${env.ARM_TENANT_ID}"
   client_id         = "${env.ARM_CLIENT_ID}"
   client_secret     = "${env.ARM_CLIENT_SECRET}"
+  use_msi = true
 }
   
   resource "random_pet" "rg_name" {
