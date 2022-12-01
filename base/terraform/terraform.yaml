@@ -5,7 +5,7 @@ metadata:
   name: k8s-vault-config
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 10m
   approvePlan: auto
   path: ./base/terraform/k8s-vault-config
   sourceRef:
@@ -18,7 +18,7 @@ metadata:
   name: azure-config
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 10m
   approvePlan: auto
   path: ./base/terraform/azure-config
   sourceRef:
