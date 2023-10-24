@@ -1,4 +1,4 @@
-# FLUX-VAULT-DEMO
+# DEPRECATED: FLUX-VAULT-DEMO
 This project is designed to give an overview on how to integrate Vault secrets into your Flux deployed applications.
 
 ## Setup
